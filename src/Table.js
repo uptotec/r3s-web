@@ -1,34 +1,47 @@
 import React from 'react'
 
-function Table() {
+
+function Table({ temperature, salinity, day }) {
     return (
         <div>
             <table>
                 <tr className='coloredAndRounded'>
-                    <th className='leftTop'>Firstname</th>
-                    <th>Lastname</th>
-                    <th className='rightTop'>Firstname</th>
+                    <th className='leftTop'>Temperature</th>
+                    <th>Salinity</th>
+                    <th className='rightTop'>day</th>
                 </tr>
+
+                {/* {temperature.map((index) => (
+                    <tr>
+                        <th>{index}</th>
+                    </tr>
+                ))} */}
+
                 <tr>
-                    <th>Peter</th>
-                    <th>Griffin</th>
-                    <th>Firstname</th>
+                    <th>{temperature}</th>
                 </tr>
+
+                {/* {salinity.map((index) => (
+                    <tr>
+                        <th>{index}</th>
+                    </tr>
+                ))} */}
+
                 <tr>
-                    <th>Lois</th>
-                    <th>Griffin</th>
-                    <th>Firstname</th>
+                    <th>{salinity}</th>
                 </tr>
-                <tr >
-                    <th >hi</th>
-                    <th>Griffin</th>
-                    <th >hi</th>
+
+
+                {/* {day.map((index) => (
+                    <tr>
+                        <th>{index}</th>
+                    </tr>
+                ))} */}
+
+                <tr>
+                    <th>{day}</th>
                 </tr>
-                <tr >
-                    <th className='leftBottom'>hi</th>
-                    <th>Griffin</th>
-                    <th className='rightBottom'>hi</th>
-                </tr>
+
             </table>
         </div>
     )

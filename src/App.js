@@ -1,7 +1,7 @@
 import './App.css';
 import Warning from './Warning';
 import R3S from "./r3s.jpg"
-import Table from './Table';
+import Table1 from './Table1';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { useState } from 'react';
 import { Chart } from "react-google-charts";
@@ -68,7 +68,7 @@ function App() {
             </div>
             <div>
               <h1>past days</h1>
-              <Table />
+              <Table1 salinity={"10"} temperature={"10"} day={"10"} />
             </div>
           </div>
         </div>
