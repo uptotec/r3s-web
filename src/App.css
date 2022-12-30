@@ -1,0 +1,24 @@
+.row {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+}
+
+.columnData {
+  flex: 75%;
+}
+
+.columnData::after {
+  content: '';
+  background-color: rgba(0, 0, 0, 0.2);
+  position: absolute;
+  width: 2px;
+  height: 85vh;
+  top: 7.5%;
+  left: 75%;
+  display: block;
+}
+
+.columnAlert {
+  flex: 25%;
+}
