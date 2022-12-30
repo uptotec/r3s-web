@@ -1,16 +1,47 @@
 import './App.css';
 import Warning from './Warning';
 import R3S from "./r3s.jpg"
-import Table1 from './Table1';
+import Table from './Table';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { useState } from 'react';
 import { Chart } from "react-google-charts";
+import ActivityRings, { ActivityRingsConfig, ActivityRingsData } from "react-activity-rings"
+
 
 
 
 
 function App() {
-  const [active, setActive] = useState("growth")
+  const [active, setActive] = useState("growth");
+  const data = [
+    {
+      temperature: "30",
+      day: "30",
+      salinity: "30"
+    },
+    {
+      temperature: "30",
+      day: "30",
+      salinity: "30"
+    },
+    {
+      temperature: "30",
+      day: "30",
+      salinity: "30"
+    }
+  ]
+
+  const activityData = [
+    { value: 0.2 }
+  ]
+
+  const activityConfig = {
+    width: 200,
+    height: 250,
+    ringSize: 30,
+    radius: 75
+  }
+
   return (
     <div className="col">
       <div className='nav'>
@@ -65,15 +96,19 @@ function App() {
           <div className='columnDataRow'>
             <div>
               <h1>Live Readings</h1>
+              <div className='rowDonut'>
+                <ActivityRings data={activityData} config={activityConfig} />
+                <ActivityRings data={activityData} config={activityConfig} />
+              </div>
             </div>
             <div>
               <h1>past days</h1>
-              <Table1 salinity={"10"} temperature={"10"} day={"10"} />
+              <Table data={data} />
             </div>
           </div>
         </div>
         <div className="columnAlert">
-          <h1>Alert</h1>
+          <h1>Alerts</h1>
           <Warning time={"9"} data={"The temperature has been in the 28–30-degree range for the last five days. If it lasted for another 9–14 days, the grass will grow at a slower rate of 8.9 - 7.8 mm per week."} />
           <Warning time={"9"} data={"The temperature has been in the 28–30-degree range for the last five days. If it lasted for another 9–14 days, the grass will grow at a slower rate of 8.9 - 7.8 mm per week."} />
         </div>
