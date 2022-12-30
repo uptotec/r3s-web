@@ -1,6 +1,7 @@
 import React from 'react'
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import RemoveIcon from '@mui/icons-material/Remove';
+import CloseIcon from '@mui/icons-material/Close';
 
 function Warning({ data, time }) {
     return (
@@ -13,10 +14,15 @@ function Warning({ data, time }) {
                     <span className='warning'>
                         Warning
                     </span>
-                    <small>{time}h ago</small>
+                    <div className='secondryTitle'>
+                        <small>{time}h ago</small>
+                        <span className='close'>
+                            <CloseIcon sx={{ fontSize: 18 }} />
+                        </span>
+                    </div>
                 </div>
                 <div className='body'>
-                    {data}
+                    <p>{data}</p>
                     <div className='showData'> <RemoveRedEyeIcon sx={{ mr: "0.5rem" }} /> View Data</div>
                 </div>
             </div>

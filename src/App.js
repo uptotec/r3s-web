@@ -50,6 +50,7 @@ function App() {
         <div className="columnAlert">
           <h1>Alert</h1>
           <Warning time={"9"} data={"The temperature has been in the 28–30-degree range for the last five days. If it lasted for another 9–14 days, the grass will grow at a slower rate of 8.9 - 7.8 mm per week."} />
+          <Warning time={"9"} data={"The temperature has been in the 28–30-degree range for the last five days. If it lasted for another 9–14 days, the grass will grow at a slower rate of 8.9 - 7.8 mm per week."} />
         </div>
       </div>
     </div>

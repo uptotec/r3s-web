@@ -18,14 +18,14 @@ body {
 }
 
 .columnData {
-  width: 65%;
+  width: 80%;
   padding: 1rem 2.5rem;
   padding-right: 7rem;
   border-right: black 1px solid;
 }
 
 .columnAlert {
-  width: 35%;
+  width: 20%;
 }
 
 .nav {
@@ -119,6 +119,7 @@ table {
   padding: 1rem;
   border-radius: 12px;
   align-items: baseline;
+  margin-bottom: 1rem;
 }
 
 .warningCont {
@@ -187,4 +188,27 @@ table {
 
 .buttons .active {
   background-color: rgba(255, 255, 255, 0.315);
+}
+
+.body p {
+  all: unset;
+  line-height: 25px;
+}
+
+.secondryTitle {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.close {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.644);
+  height: 25px;
+  width: 25px;
+  border-radius: 50%;
 }
