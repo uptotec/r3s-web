@@ -3,27 +3,40 @@ import Warning from './Warning';
 import R3S from "./r3s.jpg"
 import Table from './Table';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import { useState } from 'react';
 function App() {
+  const [active, setActive] = useState("growth")
   return (
     <div className="col">
       <div className='nav'>
         <img className='img' src={R3S} />
         <div className='buttons'>
-          <div>Growth rate</div>
-          <div>Leaf Area</div>
+          <button value="growth" onClick={(e) => setActive(e.target.value)} className={active === "growth" ? "active" : null}>Growth rate</button>
+          <button value="leaf" onClick={(e) => setActive(e.target.value)} className={active === "leaf" ? "active" : null}>Leaf Area</button>
         </div>
+        {console.log(active)}
       </div>
       <div className='row'>
         <div className="columnData">
-          <div className='titleRow'>
-            <h1>Leaf Area 7 Dec 2022</h1>
-            <div className='buttons1'>
-              from:
-              <div>7 Dec 2022 <ArrowDropDownIcon /></div>
-              to:
-              <div>7 Dec 2022 <ArrowDropDownIcon /></div>
+          {active === "growth" ?
+            <div className='titleRow'>
+              <h1>Growth rate 7 Dec 2022</h1>
+              <div className='buttons1'>
+                from:
+                <div>7 Dec 2022 <ArrowDropDownIcon /></div>
+                to:
+                <div>7 Dec 2022 <ArrowDropDownIcon /></div>
+              </div>
+            </div> : <div className='titleRow'>
+              <h1>Leaf Area 7 Dec 2022</h1>
+              <div className='buttons1'>
+                from:
+                <div>7 Dec 2022 <ArrowDropDownIcon /></div>
+                to:
+                <div>7 Dec 2022 <ArrowDropDownIcon /></div>
+              </div>
             </div>
-          </div>
+          }
           <div className='columnDataRow'>
             <div>
               <h1>Live Readings</h1>
