@@ -4,6 +4,11 @@ import R3S from "./r3s.jpg"
 import Table from './Table';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { useState } from 'react';
+import { Chart } from "react-google-charts";
+
+
+
+
 function App() {
   const [active, setActive] = useState("growth")
   return (
@@ -19,22 +24,42 @@ function App() {
       <div className='row'>
         <div className="columnData">
           {active === "growth" ?
-            <div className='titleRow'>
-              <h1>Growth rate 7 Dec 2022</h1>
-              <div className='buttons1'>
-                from:
-                <div>7 Dec 2022 <ArrowDropDownIcon /></div>
-                to:
-                <div>7 Dec 2022 <ArrowDropDownIcon /></div>
+            <div >
+              <div className='titleRow'>
+                <h1>Growth rate 7 Dec 2022</h1>
+                <div className='buttons1'>
+                  from:
+                  <div>7 Dec 2022 <ArrowDropDownIcon /></div>
+                  to:
+                  <div>7 Dec 2022 <ArrowDropDownIcon /></div>
+                </div>
               </div>
-            </div> : <div className='titleRow'>
-              <h1>Leaf Area 7 Dec 2022</h1>
-              <div className='buttons1'>
-                from:
-                <div>7 Dec 2022 <ArrowDropDownIcon /></div>
-                to:
-                <div>7 Dec 2022 <ArrowDropDownIcon /></div>
+              <Chart
+                chartType="ScatterChart"
+                data={[["Age", "Weight"], [4, 5.5], [8, 12]]}
+                width="100%"
+                height="400px"
+                legendToggle
+              />
+            </div>
+            :
+            <div >
+              <div className='titleRow'>
+                <h1>Leaf Area 7 Dec 2022</h1>
+                <div className='buttons1'>
+                  from:
+                  <div>7 Dec 2022 <ArrowDropDownIcon /></div>
+                  to:
+                  <div>7 Dec 2022 <ArrowDropDownIcon /></div>
+                </div>
               </div>
+              <Chart
+                chartType="ScatterChart"
+                data={[["Age", "Weight"], [4, 5.5], [8, 12]]}
+                width="100%"
+                height="400px"
+                legendToggle
+              />
             </div>
           }
           <div className='columnDataRow'>

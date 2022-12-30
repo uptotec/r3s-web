@@ -21,7 +21,7 @@ body {
   width: 80%;
   padding: 1rem 2.5rem;
   padding-right: 7rem;
-  border-right: black 1px solid;
+  border-right: rgba(0, 0, 0, 0.479) 2px solid;
 }
 
 .columnAlert {
@@ -95,14 +95,6 @@ table {
 
 .coloredAndRounded .rightTop {
   border-top-right-radius: 8px;
-}
-
-.leftBottom {
-  border-bottom-left-radius: 8px;
-}
-
-.rightBottom {
-  border-bottom-right-radius: 8px;
 }
 
 .columnAlert {
