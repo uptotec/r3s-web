@@ -1,116 +1,115 @@
 import './App.css';
 import Warning from './Warning';
-import R3S from "./r3s.jpg"
+import R3S from './r3s.jpg';
 import Table from './Table';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import { useState } from 'react';
-import { Chart } from "react-google-charts";
-import ActivityRings, { ActivityRingsConfig, ActivityRingsData } from "react-activity-rings"
-
-
-
-
+import { useEffect, useState } from 'react';
+import Progress from './Progress';
+import LineChart from './Chart';
+import 'react-datepicker/dist/react-datepicker.css';
+import DatePicker from './DatePicker';
+import { format, startOfDay, subDays } from 'date-fns';
+import { useQuery } from './../node_modules/react-query/es/react/useQuery';
+import getReadings, { wsURL } from './api';
+import useWebSocket from 'react-use-websocket';
 
 function App() {
-  const [active, setActive] = useState("growth");
-  const data = [
-    {
-      temperature: "30",
-      day: "30",
-      salinity: "30"
-    },
-    {
-      temperature: "30",
-      day: "30",
-      salinity: "30"
-    },
-    {
-      temperature: "30",
-      day: "30",
-      salinity: "30"
-    }
-  ]
+  const [view, setView] = useState('growth');
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
 
-  const activityData = [
-    { value: 0.2 }
-  ]
+  const graphTitle = `${
+    view === 'growth' ? 'Growth rate' : 'Leaf Area'
+  } ${format(new Date(startDate), 'd MMM yyyy')} - ${format(
+    new Date(endDate),
+    'd MMM yyyy'
+  )}`;
 
-  const activityConfig = {
-    width: 200,
-    height: 250,
-    ringSize: 30,
-    radius: 75
-  }
+  const { data, isLoading, refetch } = useQuery('getReadings', () =>
+    getReadings(startDate, endDate)
+  );
+
+  const tableData = useQuery('tableData', () =>
+    getReadings(subDays(new Date(), 4), startOfDay(new Date()))
+  );
+
+  console.log(tableData.data);
+
+  useEffect(() => {
+    refetch();
+  }, [startDate, endDate, refetch]);
+
+  const { lastJsonMessage } = useWebSocket(wsURL);
 
   return (
     <div className="col">
-      <div className='nav'>
-        <img className='img' src={R3S} />
-        <div className='buttons'>
-          <button value="growth" onClick={(e) => setActive(e.target.value)} className={active === "growth" ? "active" : null}>Growth rate</button>
-          <button value="leaf" onClick={(e) => setActive(e.target.value)} className={active === "leaf" ? "active" : null}>Leaf Area</button>
+      <div className="nav">
+        <img className="img" src={R3S} alt="logo" />
+        <div className="buttons">
+          <button
+            value="growth"
+            onClick={(e) => setView(e.target.value)}
+            className={view === 'growth' ? 'active' : null}
+          >
+            Growth rate
+          </button>
+          <button
+            value="leaf"
+            onClick={(e) => setView(e.target.value)}
+            className={view === 'leaf' ? 'active' : null}
+          >
+            Leaf Area
+          </button>
         </div>
-        {console.log(active)}
       </div>
-      <div className='row'>
+      <div className="row">
         <div className="columnData">
-          {active === "growth" ?
-            <div >
-              <div className='titleRow'>
-                <h1>Growth rate 7 Dec 2022</h1>
-                <div className='buttons1'>
-                  from:
-                  <div>7 Dec 2022 <ArrowDropDownIcon /></div>
-                  to:
-                  <div>7 Dec 2022 <ArrowDropDownIcon /></div>
-                </div>
-              </div>
-              <Chart
-                chartType="ScatterChart"
-                data={[["Age", "Weight"], [4, 5.5], [8, 12]]}
-                width="100%"
-                height="400px"
-                legendToggle
-              />
-            </div>
-            :
-            <div >
-              <div className='titleRow'>
-                <h1>Leaf Area 7 Dec 2022</h1>
-                <div className='buttons1'>
-                  from:
-                  <div>7 Dec 2022 <ArrowDropDownIcon /></div>
-                  to:
-                  <div>7 Dec 2022 <ArrowDropDownIcon /></div>
-                </div>
-              </div>
-              <Chart
-                chartType="ScatterChart"
-                data={[["Age", "Weight"], [4, 5.5], [8, 12]]}
-                width="100%"
-                height="400px"
-                legendToggle
-              />
-            </div>
-          }
-          <div className='columnDataRow'>
+          <div className="titleRow">
+            <h1>{graphTitle}</h1>
+            <DatePicker
+              startDate={startDate}
+              endDate={endDate}
+              setStartDate={setStartDate}
+              setEndDate={setEndDate}
+              disabled={isLoading}
+            />
+          </div>
+          <div className="chartContainer">
+            <LineChart type={view === 'growth' ? 't' : 's'} data={data} />
+          </div>
+          <div className="columnDataRow">
             <div>
               <h1>Live Readings</h1>
-              <div className='rowDonut'>
-                <ActivityRings data={activityData} config={activityConfig} />
-                <ActivityRings data={activityData} config={activityConfig} />
+              <div className="rowDonut">
+                <Progress
+                  type={'t'}
+                  value={lastJsonMessage ? lastJsonMessage.temp : 0}
+                />
+                <Progress
+                  type={'s'}
+                  value={lastJsonMessage ? lastJsonMessage.salinity : 0}
+                />
               </div>
             </div>
             <div>
               <h1>past days</h1>
-              <Table data={data} />
+              <Table data={tableData} />
             </div>
           </div>
         </div>
         <div className="columnAlert">
           <h1>Alerts</h1>
-          <Warning time={"9"} data={"The temperature has been in the 28–30-degree range for the last five days. If it lasted for another 9–14 days, the grass will grow at a slower rate of 8.9 - 7.8 mm per week."} />
-          <Warning time={"9"} data={"The temperature has been in the 28–30-degree range for the last five days. If it lasted for another 9–14 days, the grass will grow at a slower rate of 8.9 - 7.8 mm per week."} />
+          <Warning
+            time={'9'}
+            data={
+              'The temperature has been in the 28–30-degree range for the last five days. If it lasted for another 9–14 days, the grass will grow at a slower rate of 8.9 - 7.8 mm per week.'
+            }
+          />
+          <Warning
+            time={'9'}
+            data={
+              'The temperature has been in the 28–30-degree range for the last five days. If it lasted for another 9–14 days, the grass will grow at a slower rate of 8.9 - 7.8 mm per week.'
+            }
+          />
         </div>
       </div>
     </div>

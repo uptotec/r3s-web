@@ -1,8 +1,8 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
 body {
   padding: 0;
   margin: 0;
-  font-family: "Inter", sans-serif;
+  font-family: 'Inter', sans-serif;
 }
 
 .col {
@@ -154,6 +154,18 @@ table {
   width: fit-content;
 }
 
+.datePicker {
+  display: flex;
+  align-items: center;
+  padding: 2px 14px;
+  color: white;
+  background-color: #1c2b3a;
+  border-radius: 10px;
+  margin: 0rem 1rem;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
 .titleRow {
   display: flex;
   flex-direction: row;
@@ -161,7 +173,7 @@ table {
   align-items: center;
 }
 
-.buttons1 div {
+/* .buttons1 div {
   display: flex;
   align-items: center;
   padding: 6px 14px;
@@ -169,7 +181,7 @@ table {
   background-color: #1c2b3a;
   border-radius: 10px;
   margin: 0rem 1rem;
-}
+} */
 
 .buttons1 {
   display: flex;
@@ -219,4 +231,8 @@ table {
 .rowDonut {
   display: flex;
   flex-direction: row;
+}
+
+.chartContainer {
+  height: 45vh;
 }
