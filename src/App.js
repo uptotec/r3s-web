@@ -11,6 +11,7 @@ import { format, startOfDay, subDays } from 'date-fns';
 import { useQuery } from './../node_modules/react-query/es/react/useQuery';
 import getReadings, { wsURL } from './api';
 import useWebSocket from 'react-use-websocket';
+import Switch from './Switch';
 
 function App() {
   const [view, setView] = useState('growth');
@@ -24,15 +25,13 @@ function App() {
     'd MMM yyyy'
   )}`;
 
-  const { data, isLoading, refetch } = useQuery('getReadings', () =>
+  const { data, isLoading, refetch, isError } = useQuery('getReadings', () =>
     getReadings(startDate, endDate)
   );
 
   const tableData = useQuery('tableData', () =>
     getReadings(subDays(new Date(), 4), startOfDay(new Date()))
   );
-
-  console.log(tableData.data);
 
   useEffect(() => {
     refetch();
@@ -44,22 +43,7 @@ function App() {
     <div className="col">
       <div className="nav">
         <img className="img" src={R3S} alt="logo" />
-        <div className="buttons">
-          <button
-            value="growth"
-            onClick={(e) => setView(e.target.value)}
-            className={view === 'growth' ? 'active' : null}
-          >
-            Growth rate
-          </button>
-          <button
-            value="leaf"
-            onClick={(e) => setView(e.target.value)}
-            className={view === 'leaf' ? 'active' : null}
-          >
-            Leaf Area
-          </button>
-        </div>
+        <Switch view={view} setView={setView} />
       </div>
       <div className="row">
         <div className="columnData">
@@ -74,7 +58,11 @@ function App() {
             />
           </div>
           <div className="chartContainer">
-            <LineChart type={view === 'growth' ? 't' : 's'} data={data} />
+            <LineChart
+              type={view === 'growth' ? 't' : 's'}
+              data={data}
+              isLoading={isLoading || isError}
+            />
           </div>
           <div className="columnDataRow">
             <div>

@@ -9,7 +9,7 @@ function datePicker({
   setEndDate,
   disabled,
 }) {
-  const ExampleCustomInput = forwardRef(({ value, onClick }, ref) => (
+  const CustomInput = forwardRef(({ value, onClick }, ref) => (
     <button className="datePicker" onClick={onClick} ref={ref}>
       {value} <ArrowDropDownIcon />
     </button>
@@ -25,7 +25,7 @@ function datePicker({
         selectsStart
         startDate={startDate}
         endDate={endDate}
-        customInput={<ExampleCustomInput />}
+        customInput={<CustomInput />}
         dateFormat="d MMM yyyy"
         disabled={disabled}
         todayButton
@@ -39,7 +39,7 @@ function datePicker({
         startDate={startDate}
         endDate={endDate}
         minDate={startDate}
-        customInput={<ExampleCustomInput />}
+        customInput={<CustomInput />}
         dateFormat="d MMM yyyy"
         disabled={disabled}
         todayButton

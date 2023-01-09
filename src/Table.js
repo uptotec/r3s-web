@@ -1,8 +1,10 @@
 import { format } from 'date-fns';
 import React from 'react';
+import ClipLoader from 'react-spinners/ClipLoader';
 
 function Table({ data }) {
-  if (data.isLoading) return <p>loading</p>;
+  if (data.isLoading || data.isError) return <ClipLoader />;
+
   return (
     <table className="pastTable">
       <tbody>
