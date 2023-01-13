@@ -1,19 +1,20 @@
-import './App.css';
-import WarningsList from './Warning';
-import R3S from './r3s.jpg';
-import Table from './Table';
 import { useEffect, useState } from 'react';
-import Progress from './Progress';
-import LineChart from './Chart';
-import 'react-datepicker/dist/react-datepicker.css';
-import DatePicker from './DatePicker';
-import { format, startOfDay, subDays } from 'date-fns';
-import { useQuery } from './../node_modules/react-query/es/react/useQuery';
-import { wsURL, getReadings, getWarnings, dismissWarning } from './api';
-import useWebSocket from 'react-use-websocket';
-import Switch from './Switch';
 import { useMutation, useQueryClient } from 'react-query';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
+import 'react-datepicker/dist/react-datepicker.css';
+import { format, startOfDay, subDays } from 'date-fns';
+import { useQuery } from 'react-query';
+import useWebSocket from 'react-use-websocket';
+
+import Progress from './Progress';
+import LineChart from './Chart';
+import DatePicker from './DatePicker';
+import { wsURL, getReadings, getWarnings, dismissWarning } from './api';
+import Switch from './Switch';
+import WarningsList from './Warning';
+import './App.css';
+import R3S from './r3s.jpg';
+import Table from './Table';
 
 function removeObjectWithId(arr, id) {
   console.log(arr);
@@ -44,6 +45,13 @@ function App() {
 
   const queryClient = useQueryClient();
 
+  const deleteWarning = async (id) => {
+    await queryClient.cancelQueries('warnings');
+    queryClient.setQueryData('warnings', (oldData) => {
+      return removeObjectWithId(oldData, id);
+    });
+  };
+
   const { data, isLoading, refetch, isError } = useQuery('getReadings', () =>
     getReadings(startDate, endDate)
   );
@@ -55,12 +63,7 @@ function App() {
   const warnings = useQuery('warnings', getWarnings);
 
   const dismiss = useMutation(dismissWarning, {
-    onMutate: async (id) => {
-      await queryClient.cancelQueries('warnings');
-      queryClient.setQueryData('warnings', (oldData) => {
-        return removeObjectWithId(oldData, id);
-      });
-    },
+    onMutate: deleteWarning,
   });
 
   useEffect(() => {

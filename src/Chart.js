@@ -2,9 +2,8 @@ import React, { useRef } from 'react';
 import { Line } from 'react-chartjs-2';
 import { Chart } from 'chart.js';
 import ClipLoader from 'react-spinners/ClipLoader';
-
-import 'chart.js/auto';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
+import 'chart.js/auto';
 import 'chartjs-adapter-date-fns';
 
 Chart.register(ChartDataLabels);
