@@ -152,6 +152,8 @@ table {
   border-radius: 8px;
   background-color: #ffffff65;
   width: fit-content;
+  border-width: 0;
+  border-color: transparent;
 }
 
 .datePicker {

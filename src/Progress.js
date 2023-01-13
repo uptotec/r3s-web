@@ -3,7 +3,7 @@ import { CircularProgressbarWithChildren } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 
 function Progress({ type, value }) {
-  const unit = type === 't' ? '°C' : '';
+  const unit = type === 't' ? '°C' : 'PPT';
   const name = type === 't' ? 'Temp' : 'Salinity';
 
   return (

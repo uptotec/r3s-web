@@ -17,8 +17,8 @@ function Table({ data }) {
       {data.data.map((index) => (
         <tbody key={Math.random()}>
           <tr>
-            <th>{index.temp.toFixed(2)}</th>
-            <th>{index.salinity.toFixed(2)}</th>
+            <th>{index.temp.toFixed(2)} °C</th>
+            <th>{index.salinity.toFixed(2)} PPT</th>
             <th>{format(new Date(index.createdAt), 'd MMM yyyy')}</th>
           </tr>
         </tbody>

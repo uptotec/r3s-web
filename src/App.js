@@ -1,5 +1,5 @@
 import './App.css';
-import Warning from './Warning';
+import WarningsList from './Warning';
 import R3S from './r3s.jpg';
 import Table from './Table';
 import { useEffect, useState } from 'react';
@@ -9,9 +9,21 @@ import 'react-datepicker/dist/react-datepicker.css';
 import DatePicker from './DatePicker';
 import { format, startOfDay, subDays } from 'date-fns';
 import { useQuery } from './../node_modules/react-query/es/react/useQuery';
-import getReadings, { wsURL } from './api';
+import { wsURL, getReadings, getWarnings, dismissWarning } from './api';
 import useWebSocket from 'react-use-websocket';
 import Switch from './Switch';
+import { useMutation, useQueryClient } from 'react-query';
+
+function removeObjectWithId(arr, id) {
+  console.log(arr);
+  const objWithIdIndex = arr.findIndex((obj) => obj._id === id);
+
+  if (objWithIdIndex > -1) {
+    arr.splice(objWithIdIndex, 1);
+  }
+
+  return arr;
+}
 
 function App() {
   const [view, setView] = useState('growth');
@@ -25,6 +37,8 @@ function App() {
     'd MMM yyyy'
   )}`;
 
+  const queryClient = useQueryClient();
+
   const { data, isLoading, refetch, isError } = useQuery('getReadings', () =>
     getReadings(startDate, endDate)
   );
@@ -33,11 +47,28 @@ function App() {
     getReadings(subDays(new Date(), 4), startOfDay(new Date()))
   );
 
+  const warnings = useQuery('warnings', getWarnings);
+
+  const dismiss = useMutation(dismissWarning, {
+    onMutate: async (id) => {
+      await queryClient.cancelQueries('warnings');
+      queryClient.setQueryData('warnings', (oldData) => {
+        return removeObjectWithId(oldData, id);
+      });
+    },
+  });
+
   useEffect(() => {
     refetch();
   }, [startDate, endDate, refetch]);
 
   const { lastJsonMessage } = useWebSocket(wsURL);
+
+  const viewWarning = (start, end, view) => {
+    setStartDate(new Date(start));
+    setEndDate(new Date(end));
+    setView(view === 't' ? 'growth' : 'leaf');
+  };
 
   return (
     <div className="col">
@@ -86,18 +117,13 @@ function App() {
         </div>
         <div className="columnAlert">
           <h1>Alerts</h1>
-          <Warning
-            time={'9'}
-            data={
-              'The temperature has been in the 28–30-degree range for the last five days. If it lasted for another 9–14 days, the grass will grow at a slower rate of 8.9 - 7.8 mm per week.'
-            }
-          />
-          <Warning
-            time={'9'}
-            data={
-              'The temperature has been in the 28–30-degree range for the last five days. If it lasted for another 9–14 days, the grass will grow at a slower rate of 8.9 - 7.8 mm per week.'
-            }
-          />
+          {!warnings.isLoading && (
+            <WarningsList
+              warnings={warnings.data}
+              mutate={dismiss.mutate}
+              viewWarning={viewWarning}
+            />
+          )}
         </div>
       </div>
     </div>
