@@ -13,6 +13,7 @@ import { wsURL, getReadings, getWarnings, dismissWarning } from './api';
 import useWebSocket from 'react-use-websocket';
 import Switch from './Switch';
 import { useMutation, useQueryClient } from 'react-query';
+import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 
 function removeObjectWithId(arr, id) {
   console.log(arr);
@@ -36,6 +37,10 @@ function App() {
     new Date(endDate),
     'd MMM yyyy'
   )}`;
+
+  const pointTitle = `the average predicted ${
+    view === 'growth' ? 'growth rate' : 'leaf area'
+  } for ${view === 'growth' ? 'temperature' : 'salinity'}`;
 
   const queryClient = useQueryClient();
 
@@ -87,6 +92,16 @@ function App() {
               setEndDate={setEndDate}
               disabled={isLoading}
             />
+          </div>
+          <div
+            style={{
+              alignItems: 'center',
+              justifyContent: 'end',
+              display: 'flex',
+            }}
+          >
+            <FiberManualRecordIcon fontSize="15" style={{ color: '#5C1D63' }} />
+            <p style={{ fontWeight: 'bold' }}>{pointTitle}</p>
           </div>
           <div className="chartContainer">
             <LineChart

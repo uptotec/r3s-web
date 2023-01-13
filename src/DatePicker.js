@@ -17,6 +17,7 @@ function datePicker({
 
   return (
     <div className="buttons1">
+      <p>from:</p>
       <DatePicker
         selected={startDate}
         onChange={(date) => {
@@ -30,6 +31,7 @@ function datePicker({
         disabled={disabled}
         todayButton
       />
+      <p>to:</p>
       <DatePicker
         selected={endDate}
         onChange={(date) => {
