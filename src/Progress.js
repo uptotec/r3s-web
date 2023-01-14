@@ -10,6 +10,7 @@ function Progress({ type, value }) {
   return (
     <div style={{ width: 200, height: 200, marginRight: 60 }}>
       <CircularProgressbarWithChildren
+        maxValue={type === 't' ? 100 : 200}
         value={value}
         text={`${value.toFixed(1)}${unit}`}
         strokeWidth={14}
