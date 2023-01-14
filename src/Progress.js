@@ -11,7 +11,7 @@ function Progress({ type, value }) {
     <div style={{ width: 200, height: 200, marginRight: 60 }}>
       <CircularProgressbarWithChildren
         value={value}
-        text={`${value}${unit}`}
+        text={`${value.toFixed(1)}${unit}`}
         strokeWidth={14}
         styles={{
           trail: {
@@ -24,6 +24,7 @@ function Progress({ type, value }) {
           text: {
             fontWeight: 'bold',
             fill: '#16202B',
+            fontSize: 16,
           },
         }}
       >
